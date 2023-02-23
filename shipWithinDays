@@ -1,0 +1,82 @@
+class Solution {
+    public int shipWithinDays(int[] a, int days) {
+        int l = 0, r = 500 * a.length / days;
+        // for (int w : a) {
+        //     r += w;
+        //     if (w > l) l = w;
+        // }
+
+        while (l < r) {
+            int m = l + (r-l)/2;
+            if (isEnough(a, m, days)) r = m;
+            else l = m + 1;
+        }
+
+        return l;
+    }
+
+    private boolean isEnough(int[] a, int m, int d) {
+        int cnt = 1, sum = 0;
+        for (int w : a) {
+            if (w > m) return false;
+            if ((sum += w) > m) {
+                if (++cnt > d) return false;
+                sum = w;
+            }
+        }
+
+        return true;
+    }
+}
+/*class Solution {
+    public boolean isposs(int[] weights, int n ,int days,int mid)
+    {
+        int stucount =1;
+        int pagessum=0;
+        for(int i =0;i<n;i++)
+        {
+            if(pagessum+weights[i]<=mid)
+            {
+                pagessum+=weights[i];
+            }
+            else 
+            {
+                stucount++;
+                if(stucount>days||weights[i]>mid)
+                {
+                      return false;
+                }
+               
+                pagessum=weights[i];
+            }
+            
+        }
+        return true;
+    }
+    public int shipWithinDays(int[] weights, int days) {
+        int s =0;
+        int n = weights.length;
+        int sum=0;
+        for(int i =0;i<n;i++)
+        {
+            sum+=weights[i];
+        }
+        int e=sum;
+        int mid=s+(e-s)/2;
+        int ans=-1;
+        while(s<=e)
+        {
+            if(isposs(weights,n,days,mid))
+            {
+                ans=mid;
+                e=mid-1;
+            }
+            else
+            {
+                s=mid+1;
+            }
+            mid= s+(e-s)/2;
+        }
+        return ans;
+    }
+} */
